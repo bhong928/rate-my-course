@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import Account from "../pages/Account";
 
 export default function Navbar( { onShowAuth, currentUser }) {
     

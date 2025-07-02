@@ -5,6 +5,7 @@ import WriteReview from './pages/WriteReview';
 import AllCourses from './pages/AllCourses';
 import Navbar from './components/Navbar';
 import AuthModal from './components/AuthModal';
+import Account from './pages/Account';
 import { signInWithPopup, GoogleAuthProvider, sendSignInLinkToEmail, onAuthStateChanged } from 'firebase/auth';
 import { auth } from "./lib/firebase"
 import { useState, useEffect } from 'react';
@@ -60,6 +61,7 @@ function App() {
       <Navbar onShowAuth={() => setShowAuth(true)} currentUser={currentUser}/>
       <Routes>
         <Route path="/" element={<Home/>}/>
+        <Route path="/account" element={<Account/>}/>
         <Route path="/courses" element={<AllCourses/>} />
         <Route path='/courses/:id' element={<CourseDetail/>}/>
         <Route path='/courses/:id/review' element={<WriteReview />} />
