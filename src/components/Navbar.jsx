@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-export default function Navbar( { onShowAuth}) {
+export default function Navbar( { onShowAuth, currentUser }) {
     
     return(
         <nav className="flex flex-row bg-white px-6 py-4 shadow">
@@ -11,13 +11,21 @@ export default function Navbar( { onShowAuth}) {
                 </Link>
             </div>
             <div className="flex items-center">
-                <Link 
-                    to="/" 
+                {currentUser ? (
+                    <Link
+                    to="/account"
+                    className="text-gray-700 hover:text-green-600 hover:underline font-medium"
+                    >
+                    My Account
+                    </Link>
+                ) : (
+                    <button
                     onClick={onShowAuth}
                     className="text-gray-700 hover:text-green-600 hover:underline font-medium"
-                >
+                    >
                     Sign In
-                </Link>
+                    </button>
+                )}
             </div>
         </nav>
     )

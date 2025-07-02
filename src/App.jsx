@@ -5,13 +5,22 @@ import WriteReview from './pages/WriteReview';
 import AllCourses from './pages/AllCourses';
 import Navbar from './components/Navbar';
 import AuthModal from './components/AuthModal';
-import { signInWithPopup, GoogleAuthProvider, sendSignInLinkToEmail } from 'firebase/auth';
+import { signInWithPopup, GoogleAuthProvider, sendSignInLinkToEmail, onAuthStateChanged } from 'firebase/auth';
 import { auth } from "./lib/firebase"
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
-function App({ onShowAuth }) {
+function App() {
   // Modal State
   const [showAuth, setShowAuth] = useState(false);
+  const [currentUser, setCurrentUser] = useState(null); // track user
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setCurrentUser(user);
+    });
+
+    return () => unsubscribe(); //cleanup
+  }, []);
 
   // Google Sign in Logic
   const handleGoogleSignIn = async () => {
@@ -48,7 +57,7 @@ function App({ onShowAuth }) {
         onGoogleSignIn={handleGoogleSignIn}
         onSendEmailLink={handleSendEmailLink}
       />
-      <Navbar onShowAuth={() => setShowAuth(true)}/>
+      <Navbar onShowAuth={() => setShowAuth(true)} currentUser={currentUser}/>
       <Routes>
         <Route path="/" element={<Home/>}/>
         <Route path="/courses" element={<AllCourses/>} />
