@@ -1,8 +1,7 @@
 import { useState } from "react";
 import { IoClose } from "react-icons/io5";
 
-export default function AuthModal({ isOpen, onClose, onGoogleSignIn, onSendEmailLink }) {
-    const [email, setEmail] = useState("");
+export default function AuthModal({ isOpen, onClose, onGoogleSignIn, onSendEmailLink, email, setEmail }) {
 
     // Don't render modal if it's closed
     if(!isOpen) return null; 
@@ -31,7 +30,12 @@ export default function AuthModal({ isOpen, onClose, onGoogleSignIn, onSendEmail
                 </div>
 
                 {/* Email Link Sign In */}
-                <form>
+                <form
+                    onSubmit={(e) => {
+                        e.preventDefault(); // prevents page refresh
+                        onSendEmailLink(); // call the handler with email
+                    }}
+                >
                     <label>Sign in with one-time link</label>
                     <input
                         type="email"

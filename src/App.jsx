@@ -51,7 +51,8 @@ function App() {
   // Email link sign-in
   const handleSendEmailLink = async () => {
     const actionCodeSettings = {
-      url: "https://rate-my-course-green.vercel.app/account",
+      url: "https://rate-my-course-green.vercel.app/account", // Live Deployment
+      // url: "http://localhost:5173/account", // Test on Local Host
       handleCodeInApp: true,
     };
 
