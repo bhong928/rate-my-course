@@ -35,10 +35,10 @@ export default function AuthModal({ isOpen, onClose, onGoogleSignIn, onSendEmail
                     <label>Sign in with one-time link</label>
                     <input
                         type="email"
+                        value={email}
                         id="email"
                         placeholder="Email Address"
                         className="w-full border px-3 py-2 rounded mb-3 text-sm"
-                        value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         required
                     />
