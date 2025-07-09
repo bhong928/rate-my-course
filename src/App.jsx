@@ -7,6 +7,7 @@ import Navbar from './components/Navbar';
 import AuthModal from './components/AuthModal';
 import Account from './pages/Account';
 import AdminDashboard from './pages/AdminDashboard';
+import AddCoursePage from './components/AddCourse/AddCoursePage';
 
 import {
   signInWithPopup,
@@ -109,6 +110,7 @@ function App() {
         <Route path="/courses/:id" element={<CourseDetail />} />
         <Route path="/courses/:id/review" element={<WriteReview />} />
         <Route path="/admin" element={<AdminDashboard />} />
+        <Route path="/add-course" element={<AddCoursePage currentUser={currentUser} />} />
       </Routes>
     </>
   );
