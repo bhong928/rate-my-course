@@ -133,7 +133,8 @@ export default function AddCourseForm({ currentUser }) {
                     <option key={state.id} value={state.id}>{state.name}</option>
                 ))}
             </select>
-
+            
+            {/* Submit Button */}
             <button
                 type="submit"
                 disabled={loading || !name || !city || !stateId}

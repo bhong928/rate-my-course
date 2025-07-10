@@ -1,6 +1,8 @@
-import { collectionGroup, getDocs, query, where } from "firebase/firestore";
-import { useEffect, useState } from "react";
+import { collectionGroup, getDocs, query, doc, updateDoc, deleteDoc, where } from "firebase/firestore";
 import { db } from "../lib/firebase";
+
+import { useEffect, useState } from "react";
+
 
 export default function AdminDashboard() {
   const [pendingCourses, setPendingCourses] = useState([]);
@@ -46,7 +48,39 @@ export default function AdminDashboard() {
                   {course.city}, {course.stateId}
                 </p>
               </div>
-              {/* Add approve button later */}
+
+                {/* Add approve button and remove approved course from pending list */}
+                <button
+                    onClick={async() => {
+                        try {
+                            const courseRef = doc(db, "states", course.stateId, "courses", course.id);
+                            await updateDoc(courseRef, { approved: true });
+                            setPendingCourses(pendingCourses.filter((c) => c.id !== course.id)); //removes from pending course list
+                        } catch (err){
+                            console.error("Failed to approve course:", err)
+                        }
+                    }}
+                    className="bg-green-400 px-3 py-1 border rounded hover:bg-green-500 text-white text-sm"
+                >
+                    Approve
+                </button>
+
+                {/* Add reject button*/}
+                <button
+                    onClick={async() => {
+                        try {
+                            const courseRef = doc(db, "states", course.stateId, "courses", course.id);
+                            await deleteDoc(courseRef); // delete the doc from firebase
+                            setPendingCourses(pendingCourses.filter((c) => c.id !== course.id)); // removes course from list
+
+                        } catch(err) {
+                            console.error("Failed to reject course:", err)
+                        }
+                    }}
+                    className="bg-red-400 px-3 py-1 border rounded hover:bg-red-500 text-white text-sm"
+                >
+                    Reject
+                </button>
             </li>
           ))}
         </ul>
