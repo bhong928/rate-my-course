@@ -1,6 +1,6 @@
 // Import the Firebase Modules
 import { initializeApp } from "firebase/app";
-import { getFirestore, setDoc, doc } from "firebase/firestore";
+import { getFirestore, setDoc, doc, serverTimestamp } from "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAJhex1vfEZ0G7Kj3r3hitbml7BxrWudws",
@@ -398,18 +398,31 @@ const golfCoursesByState = {
 };
 
 async function uploadCourses() {
-  for (const state in golfCoursesByState) {
-    const courses = golfCoursesByState[state];
+  for (const stateId in golfCoursesByState) {
+    const courses = golfCoursesByState[stateId];
+
     for (const course of courses) {
-      const id = slugify(course.name);
-      await setDoc(doc(db, "states", state, "courses", id), {
+      const courseId = slugify(course.name);
+
+      const courseDocRef = doc(db, "states", stateId, "courses", courseId);
+
+      await setDoc(courseDocRef, {
+        approved: true,
         name: course.name,
         city: course.city,
+        stateId: stateId,
         imageUrl: course.imageUrl,
+        submittedAt: serverTimestamp(),
+        submittedBy: "script@ratemycourse.dev"
       });
-      console.log(`✅ Added ${course.name} to ${state}`);
+
+      console.log(`✅ Uploaded: ${course.name} (${stateId})`);
     }
   }
 }
 
-uploadCourses();
+uploadCourses().then(() => {
+  console.log("🎉 All courses uploaded successfully.");
+}).catch((err) => {
+  console.error("❌ Error uploading courses:", err);
+});
