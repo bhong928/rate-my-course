@@ -107,10 +107,9 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/account" element={<Account />} />
         <Route path="/courses" element={<AllCourses />} />
-        <Route path="/courses/:id" element={<CourseDetail />} />
-        <Route path="/courses/:id/review" element={<WriteReview />} />
         <Route path="/admin" element={<AdminDashboard />} />
         <Route path="/add-course" element={<AddCoursePage currentUser={currentUser} />} />
+        <Route path="/states/:stateId/courses/:courseId" element={<CourseDetail />} />
       </Routes>
     </>
   );
