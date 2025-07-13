@@ -1,34 +1,42 @@
-
+// react
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom"
-import ReviewForm from "../components/ReviewForm"
+import { useParams } from "react-router-dom";
 
+// firebase
 import { getAuth } from "firebase/auth";
 
+// components
+import Banner from "../components/Banner";
+import ReviewForm from "../components/ReviewForm";
+
+// hooks
+import { useCourseData } from "../hooks/useCourseData"; // import the hook
 
 export default function WriteReview() {
     const { stateId, courseId } = useParams();
     const auth = getAuth();
     const currentUser = auth.currentUser;
 
-    return(
-        <section className="max-w-xl mx-auto p-4">
-            {/* Banner + Title + Rating */}
-            <div className="relative h-60 md:h-80 mb-6 rounded overflow-hidden shadow">
-                <img src={course.imageUrl} alt={course.name} className="w-full h-full object-cover" />
-                <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4">
-                    <h1 className="text-2xl font-bold text-white">{course.name}</h1>
-                    <p className="text-sm text-white">{course.city}, {stateId}</p>
+    const { course, loading } = useCourseData(stateId, courseId); // use the hook
 
-                </div>
-            </div>
-            <h1 className="text-2xl font-bold mb-4">Write a Review</h1>
-            <ReviewForm
-                stateId={stateId}
-                courseId={courseId}
-                currentUser={currentUser}
-                onReviewSubmitted={() => {}}
-            />
+    if (loading) return <p className="text-center mt-10">Loading...</p>;
+    if (!course) return <p className="text-center mt-10">Course not found</p>;
+
+    return (
+        <section className="w-full mx-auto p-4">
+        <Banner 
+            imageUrl={course.imageUrl} 
+            title={course.name} 
+            subtitle={`${course.city}, ${stateId}`} 
+        />
+
+        <h1 className="text-2xl font-bold mb-4">Write a Review</h1>
+        <ReviewForm
+            stateId={stateId}
+            courseId={courseId}
+            currentUser={currentUser}
+            onReviewSubmitted={() => {}}
+        />
         </section>
-    )
+    );
 }
