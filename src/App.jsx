@@ -110,6 +110,7 @@ function App() {
         <Route path="/admin" element={<AdminDashboard />} />
         <Route path="/add-course" element={<AddCoursePage currentUser={currentUser} />} />
         <Route path="/states/:stateId/courses/:courseId" element={<CourseDetail />} />
+        <Route path="/write-review/:stateId/:courseId" element={<WriteReview />} />
       </Routes>
     </>
   );

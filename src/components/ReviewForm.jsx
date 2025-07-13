@@ -4,7 +4,7 @@ import { db } from "../lib/firebase";
 import { addDoc, serverTimestamp, doc, collection } from "firebase/firestore";
 
 
-export default function ReviewForm() {
+export default function ReviewForm({stateId, courseId, currentUser, onReviewSubmitted }) {
     const [rating, setRating] = useState(0);
     const [comment, setComment] = useState("");
     const [submitting, setSubmitting] = useState(false);
@@ -28,6 +28,15 @@ export default function ReviewForm() {
                 user: currentUser?.email || "Anonymous",
                 createdAt: serverTimestamp(),
             });
+
+            // Reset the form
+            setRating(0);
+            setComment("");
+
+            // Refresh review list in parent (Course Detail Page)
+            if (onReviewSubmitted) {
+                await onReviewSubmitted();
+            }
         } catch (err) {
             console.error("Error submitting review:", err);
             setError("Something went wrong. Please try again");
