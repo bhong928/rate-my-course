@@ -7,7 +7,7 @@ import { getAuth } from "firebase/auth";
 
 // components
 import Banner from "../components/Banner";
-import ReviewForm from "../components/ReviewForm";
+import MultiStepReviewForm from "../components/ReviewForms/MultiStepReviewForm";
 
 // hooks
 import { useCourseData } from "../hooks/useCourseData"; // import the hook
@@ -15,7 +15,14 @@ import { useCourseData } from "../hooks/useCourseData"; // import the hook
 export default function WriteReview() {
     const { stateId, courseId } = useParams();
     const auth = getAuth();
-    const currentUser = auth.currentUser;
+    const [currentUser, setCurrentUser] = useState(null);
+
+    useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+        setCurrentUser(user);
+    });
+    return () => unsubscribe();
+    }, []);
 
     const { course, loading } = useCourseData(stateId, courseId); // use the hook
 
@@ -31,11 +38,10 @@ export default function WriteReview() {
         />
 
         <h1 className="text-2xl font-bold mb-4">Write a Review</h1>
-        <ReviewForm
+        <MultiStepReviewForm
             stateId={stateId}
             courseId={courseId}
             currentUser={currentUser}
-            onReviewSubmitted={() => {}}
         />
         </section>
     );
