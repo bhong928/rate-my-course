@@ -25,6 +25,11 @@ export default function CourseDetail() {
     const { course, loading } = useCourseData(stateId, courseId);
     const { reviews, loadingReviews } = useCourseReviews(stateId, courseId);
 
+    const greenAvg = (reviews.reduce((sum, r) => sum + r.greenRating, 0) / reviews.length).toFixed(1);
+    const fairwayAvg = (reviews.reduce((sum, r) => sum + r.fairwayRating, 0) / reviews.length).toFixed(1);
+    const roughAvg = (reviews.reduce((sum, r) => sum + r.roughRating, 0) / reviews.length).toFixed(1);
+    const staffAvg = (reviews.reduce((sum, r) => sum + r.staffRating, 0) / reviews.length).toFixed(1);
+
     // Calculate overall average
     const averageRating =
         reviews.length > 0
@@ -61,11 +66,11 @@ export default function CourseDetail() {
                     </p>
 
                     <h4 className="mt-4 font-medium">Overall Breakdown</h4>
-                    <ul className="text-sm mt-2">
-                        <li>⭐ Greens</li>
-                        <li>⭐ Fairways</li>
-                        <li>⭐ Rough</li>
-                        <li>⭐ Staff</li>
+                    <ul className="text-sm mt-2 space-y-1">
+                        <li>⭐ Greens: {greenAvg}/5.0</li>
+                        <li>⭐ Fairways: {fairwayAvg}/5.0</li>
+                        <li>⭐ Rough: {roughAvg}/5.0</li>
+                        <li>⭐ Staff: {staffAvg}/5.0</li>
                     </ul>
 
                     {/* Overall Average Rating */}
