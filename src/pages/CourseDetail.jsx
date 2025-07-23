@@ -91,7 +91,7 @@ export default function CourseDetail() {
 
                 {/* Reviews Section */}
                 <div className="md:col-span-5 border shadow rounded p-4">
-                    <h2 className="text-xl font-semibold mb-4">Reviews</h2>
+                    <h2 className="text-xl font-semibold mb-4 text-center">Reviews</h2>
 
                     {reviews.length === 0 ? (
                         <p>No reviews yet.</p>

@@ -7,13 +7,13 @@ export default function StepComment({ data, setData, next, back }) {
 
   return (
     <div>
-      <h2 className="text-xl font-bold mb-4">Leave a Comment</h2>
+      <h2 className="text-3xl font-bold mb-4">Leave a Comment</h2>
 
       <textarea
         value={data.comments}
         onChange={handleChange}
-        rows={5}
-        className="w-full border rounded px-3 py-2 text-sm"
+        rows={15}
+        className="w-full border rounded px-3 py-2 text-lg"
         placeholder="Write your thoughts about the course..."
         required
       />

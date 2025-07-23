@@ -1,44 +1,84 @@
+import { FaGolfBall } from "react-icons/fa";
+
+const RATINGS = [
+  {
+    field: "greenRating",
+    label: "Greens",
+    description: "Rate the condition of the greens"
+  },
+  {
+    field: "fairwayRating",
+    label: "Fairways",
+    description: "Rate the fairways' condition and upkeep"
+  },
+  {
+    field: "roughRating",
+    label: "Rough",
+    description: "Rate the rough areas and difficulty"
+  },
+  {
+    field: "staffRating",
+    label: "Staff",
+    description: "Rate the friendliness and professionalism of the staff"
+  },
+];
+
 export default function StepRating({ data, setData, next }) {
   const handleChange = (field, value) => {
     setData({ ...data, [field]: value });
   };
 
-  const allRatingsFilled =
-    data.greenRating > 0 &&
-    data.fairwayRating > 0 &&
-    data.roughRating > 0 &&
-    data.staffRating > 0;
+  const allFilled = RATINGS.every((r) => data[r.field] > 0);
 
   return (
-    <div>
-      <h2 className="text-xl font-bold mb-4">Rate the Course</h2>
+    <div className="w-full bg-white sm:p-10">
+      {RATINGS.map(({ field, label, description }) => (
+        <div key={field} className="mb-10">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+            
+            {/* Text Section */}
+            <div className="sm:w-1/2">
+              <h3 className="text-3xl font-bold text-gray-800 mb-1">
+                Rate the <span className="text-green-600">{label.toLowerCase()}</span>
+              </h3>
+              <p className="text-base text-gray-500">{description}</p>
+            </div>
 
-      {["greenRating", "fairwayRating", "roughRating", "staffRating"].map((field) => (
-        <div key={field} className="mb-4">
-          <label className="block font-medium capitalize">
-            {field.replace("Rating", "").replace(/^./, (c) => c.toUpperCase())}:
-          </label>
-          <input
-            type="number"
-            min={1}
-            max={5}
-            value={data[field]}
-            onChange={(e) => handleChange(field, Number(e.target.value))}
-            className="w-full border rounded px-3 py-2 text-sm mt-1"
-            required
-          />
+            {/* Golf Ball Rating */}
+            <div className="flex gap-2 sm:gap-3 sm:w-1/2 justify-start sm:justify-end">
+              {[1, 2, 3, 4, 5].map((value) => (
+                <button
+                  key={value}
+                  type="button"
+                  onClick={() => handleChange(field, value)}
+                  className="focus:outline-none"
+                >
+                  <FaGolfBall
+                    className={`w-6 h-6 sm:w-8 sm:h-8 transition-transform duration-150 ease-in-out cursor-pointer ${
+                      value <= data[field] ? "text-green-500" : "text-gray-300 hover:text-green-400"
+                    } hover:scale-125`}
+                  />
+                </button>
+              ))}
+            </div>
+          </div>
         </div>
       ))}
 
-      <button
-        onClick={next}
-        disabled={!allRatingsFilled}
-        className={`mt-4 px-4 py-2 rounded text-white ${
-          allRatingsFilled ? "bg-blue-600 hover:bg-blue-700" : "bg-gray-300 cursor-not-allowed"
-        }`}
-      >
-        Next
-      </button>
+      {/* Next button */}
+      <div className="text-center">
+        <button
+          onClick={next}
+          disabled={!allFilled}
+          className={`mt-8 px-6 py-2 rounded text-white text-lg font-medium ${
+            allFilled
+              ? "bg-blue-600 hover:bg-blue-700"
+              : "bg-gray-300 cursor-not-allowed"
+          }`}
+        >
+          Next
+        </button>
+      </div>
     </div>
   );
 }

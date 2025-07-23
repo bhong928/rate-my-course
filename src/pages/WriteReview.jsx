@@ -37,7 +37,7 @@ export default function WriteReview() {
             subtitle={`${course.city}, ${stateId}`} 
         />
 
-        <h1 className="text-2xl font-bold mb-4">Write a Review</h1>
+        <h1 className="text-4xl font-bold text-center">Write a Review</h1>
         <MultiStepReviewForm
             stateId={stateId}
             courseId={courseId}
