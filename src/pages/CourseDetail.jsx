@@ -111,18 +111,19 @@ export default function CourseDetail() {
                                 {/* <p className="text-xs text-gray-500 mt-1">By {r.user || "Anonymous"}</p> */}
 
                                 {/* Handicap & Players (bottom right corner inside each review) */}
-                                <div className="absolute bottom-2 right-4 text-xs text-gray-400 text-right flex flex-col items-end gap-1">
-                                    <div className="flex items-center gap-1">
+                                <div className="mt-3 flex flex-wrap justify-between text-xs text-gray-500">
+                                    <div className="flex items-center gap-3">
+                                        <div className="flex items-center gap-1">
                                         <GiGolfTee className="text-green-600" />
                                         <span>Handicap: {r.handicap}</span>
-                                    </div>
-                                    <div className="flex items-center gap-1">
+                                        </div>
+                                        <div className="flex items-center gap-1">
                                         <FaUsers className="text-blue-600" />
                                         <span>Players: {r.numPlayer}</span>
+                                        </div>
                                     </div>
-                                    {r.createdAt?.toDate && (
-                                        <div className="text-[10px] italic">{formatDistanceToNow(r.createdAt.toDate(), { addSuffix: true })}</div>
-                                    )}
+
+                                    <span className="text-gray-400">{formatDistanceToNow(r.createdAt.toDate())} ago</span>
                                 </div>
                                 </li>
                             ))}
