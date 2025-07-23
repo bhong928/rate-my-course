@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../lib/firebase";
@@ -12,10 +11,13 @@ export function useCourseReviews(stateId, courseId) {
       try {
         const reviewRef = collection(db, "states", stateId, "courses", courseId, "reviews");
         const snapshot = await getDocs(reviewRef);
-        const reviewList = snapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
+        const reviewList = snapshot.docs
+          .map((doc) => ({
+            id: doc.id,
+            ...doc.data(),
+          }))
+          .filter((review) => review.approved);
+
         setReviews(reviewList);
       } catch (err) {
         console.error("Failed to fetch reviews:", err);

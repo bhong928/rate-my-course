@@ -3,6 +3,8 @@ export default function StepComment({ data, setData, next, back }) {
     setData({ ...data, comments: e.target.value });
   };
 
+  const isDisabled = data.comments.trim().length < 10; // you can adjust minimum length
+
   return (
     <div>
       <h2 className="text-xl font-bold mb-4">Leave a Comment</h2>
@@ -18,7 +20,13 @@ export default function StepComment({ data, setData, next, back }) {
 
       <div className="flex justify-between mt-4">
         <button onClick={back} className="bg-gray-300 px-4 py-2 rounded">Back</button>
-        <button onClick={next} className="bg-blue-600 text-white px-4 py-2 rounded">Next</button>
+        <button
+          onClick={next}
+          disabled={isDisabled}
+          className="bg-blue-600 text-white px-4 py-2 rounded disabled:opacity-50"
+        >
+          Next
+        </button>
       </div>
     </div>
   );

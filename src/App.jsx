@@ -8,6 +8,8 @@ import AuthModal from './components/AuthModal';
 import Account from './pages/Account';
 import AdminDashboard from './pages/AdminDashboard';
 import AddCoursePage from './components/AddCourse/AddCoursePage';
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import {
   signInWithPopup,
@@ -112,6 +114,8 @@ function App() {
         <Route path="/states/:stateId/courses/:courseId" element={<CourseDetail />} />
         <Route path="/write-review/:stateId/:courseId" element={<WriteReview />} />
       </Routes>
+
+      <ToastContainer position="top-center" autoClose={3000} />
     </>
   );
 }
