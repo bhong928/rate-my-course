@@ -13,8 +13,8 @@ export function useCourseReviews(stateId, courseId) {
 
         const reviewQuery = query(
           reviewRef,
-          where("approved", "==", true),         // ✅ Only approved reviews
-          orderBy("createdAt", "desc")           // ✅ Newest first
+          where("approved", "==", true),         // Only approved reviews
+          orderBy("createdAt", "desc")           // Newest first
         );
 
         const snapshot = await getDocs(reviewQuery);
