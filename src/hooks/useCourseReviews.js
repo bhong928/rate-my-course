@@ -1,4 +1,4 @@
-import { collection, getDocs, query, orderBy } from "firebase/firestore";
+import { collection, getDocs, query, orderBy, where } from "firebase/firestore"; // <— add `where`
 import { db } from "../lib/firebase";
 import { useEffect, useState } from "react";
 
@@ -10,7 +10,13 @@ export function useCourseReviews(stateId, courseId) {
     async function fetchReviews() {
       try {
         const reviewRef = collection(db, "states", stateId, "courses", courseId, "reviews");
-        const reviewQuery = query(reviewRef, orderBy("createdAt", "desc")); // ✅ sort by newest first
+
+        const reviewQuery = query(
+          reviewRef,
+          where("approved", "==", true),         // ✅ Only approved reviews
+          orderBy("createdAt", "desc")           // ✅ Newest first
+        );
+
         const snapshot = await getDocs(reviewQuery);
         const reviewList = snapshot.docs.map((doc) => ({
           id: doc.id,

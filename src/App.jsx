@@ -23,6 +23,9 @@ import {
 import { auth } from "./lib/firebase";
 import { ADMIN_EMAILS } from './lib/admin';
 import { useState, useEffect } from 'react';
+import { createContext } from "react";
+
+export const AuthContext = createContext();
 
 function App() {
   const [showAuth, setShowAuth] = useState(false);
@@ -91,7 +94,7 @@ function App() {
   }, []);
 
   return (
-    <>
+    <AuthContext.Provider value={{ showAuth, setShowAuth }}>
       <AuthModal
         isOpen={showAuth}
         onClose={() => setShowAuth(false)}
@@ -114,9 +117,8 @@ function App() {
         <Route path="/states/:stateId/courses/:courseId" element={<CourseDetail />} />
         <Route path="/write-review/:stateId/:courseId" element={<WriteReview />} />
       </Routes>
-
       <ToastContainer position="top-center" autoClose={3000} />
-    </>
+    </AuthContext.Provider>
   );
 }
 

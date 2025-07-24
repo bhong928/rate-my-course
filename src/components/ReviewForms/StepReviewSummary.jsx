@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { db } from "../../lib/firebase";
-import { collection, addDoc, serverTimestamp } from "firebase/firestore";
+import { collection, query, addDoc, where, getDocs, serverTimestamp } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
@@ -43,6 +43,16 @@ export default function StepReviewSummary({
         courseId,
         "reviews"
       );
+
+      // Check if user has already submmitted a review
+      const q = query(reviewRef, where("user", "==", currentUser?.email || "Anonymous"));
+      const existing = await getDocs(q);
+
+      if (!existing.empty) {
+        toast.info("You’ve already submitted a review for this course.");
+        navigate(`/states/${stateId}/courses/${courseId}`);
+        return;
+      }
 
       await addDoc(reviewRef, {
         greenRating: data.greenRating,
