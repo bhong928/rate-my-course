@@ -16,7 +16,7 @@ export default function StateCard({ name, image, reviews, slug }) {
       />
 
       {/* Text content */}
-      <div className="flex flex-col justify-between flew-grow p-4">
+      <div className="flex flex-col justify-between flex-grow p-4">
         <h3 className="font-semibold text-xl">{name}</h3>
         <p className="text-sm text-gray-500">{reviews} Reviews</p>
       </div>

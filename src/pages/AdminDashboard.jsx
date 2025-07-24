@@ -6,7 +6,8 @@ import {
   doc,
   updateDoc,
   deleteDoc,
-  where
+  where,
+  increment
 } from "firebase/firestore";
 import { db } from "../lib/firebase";
 
@@ -121,7 +122,11 @@ export default function AdminDashboard() {
                           "courses",
                           course.id
                         );
+
+                        // Approve the course (no review count increment)
                         await updateDoc(courseRef, { approved: true });
+
+                        // Remove course from pendingCourses list
                         setPendingCourses((prev) =>
                           prev.filter((c) => c.id !== course.id)
                         );
@@ -130,6 +135,7 @@ export default function AdminDashboard() {
                     >
                       Approve
                     </button>
+
                     <button
                       onClick={async () => {
                         const courseRef = doc(
@@ -180,17 +186,32 @@ export default function AdminDashboard() {
                     <p className="mt-2 text-gray-800">{review.comments}</p>
                   )}
                   <div className="mt-4 flex gap-2">
+
                     <button
                       onClick={async () => {
-                        await updateDoc(review.ref, { approved: true });
-                        setPendingReviews((prev) =>
-                          prev.filter((r) => r.id !== review.id)
-                        );
+                        try {
+                          // 1. Approve the review
+                          await updateDoc(review.ref, { approved: true });
+
+                          // 2. Increment totalReviews for the correct state
+                          const stateDocRef = doc(db, "states", review.stateId);
+                          await updateDoc(stateDocRef, {
+                            totalReviews: increment(1),
+                          });
+
+                          // 3. Remove review from UI list
+                          setPendingReviews((prev) =>
+                            prev.filter((r) => r.id !== review.id)
+                          );
+                        } catch (err) {
+                          console.error("Failed to approve review and update count:", err);
+                        }
                       }}
                       className="bg-green-500 text-white px-3 py-1 rounded text-sm"
                     >
                       Approve
                     </button>
+
                     <button
                       onClick={async () => {
                         await deleteDoc(review.ref);

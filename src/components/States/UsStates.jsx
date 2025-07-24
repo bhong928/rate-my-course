@@ -41,7 +41,7 @@ export default function UsStates() {
                     key={states.id}
                     name={states.name}
                     image={states.imageUrl}
-                    review={states.totalReviews}
+                    reviews={states.totalReviews}
                     slug={states.id} // use the doc ID as the slug
                     />
                 ))}

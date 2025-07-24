@@ -10,6 +10,7 @@ import AdminDashboard from './pages/AdminDashboard';
 import AddCoursePage from './components/AddCourse/AddCoursePage';
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import StateDetail from './components/States/StateDetail';
 
 import {
   signInWithPopup,
@@ -114,6 +115,7 @@ function App() {
         <Route path="/courses" element={<AllCourses />} />
         <Route path="/admin" element={<AdminDashboard />} />
         <Route path="/add-course" element={<AddCoursePage currentUser={currentUser} />} />
+        <Route path="/states/:stateId" element={<StateDetail />} />
         <Route path="/states/:stateId/courses/:courseId" element={<CourseDetail />} />
         <Route path="/write-review/:stateId/:courseId" element={<WriteReview />} />
       </Routes>
