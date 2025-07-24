@@ -5,7 +5,7 @@ import { signOut } from "firebase/auth";
 import { useUserReviews } from "../hooks/useUserReviews";
 import { formatDistanceToNow } from "date-fns";
 import EditReviewForm from "../components/ReviewForms/EditReviewForm";
-import { doc, deleteDoc } from "firebase/firestore";
+import { doc, deleteDoc,increment, updateDoc } from "firebase/firestore";
 import { toast } from "react-toastify";
 
 export default function Account() {
@@ -46,7 +46,18 @@ export default function Account() {
         "reviews",
         review.id
       );
+
+      // Delete the review
       await deleteDoc(reviewDocRef);
+
+      // Only decrement if the review was approved
+      if (review.approved) {
+        const stateDocRef = doc(db, "states", review.stateId);
+        await updateDoc(stateDocRef, {
+          totalReviews: increment(-1),
+        });
+      }
+
       toast.success("Review deleted.");
       window.location.reload();
     } catch (err) {
