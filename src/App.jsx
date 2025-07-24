@@ -11,6 +11,7 @@ import AddCoursePage from './components/AddCourse/AddCoursePage';
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import StateDetail from './components/States/StateDetail';
+import GoogleAnalytics from "./components/GoogleAnalytics";
 
 import {
   signInWithPopup,
@@ -109,6 +110,9 @@ function App() {
         currentUser={currentUser}
         isAdmin={isAdmin}
       />
+      {import.meta.env.PROD && (
+        <GoogleAnalytics trackingId="G-TG73KWVJVW" />
+      )}
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/account" element={<Account />} />
