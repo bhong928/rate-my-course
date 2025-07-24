@@ -17,6 +17,7 @@ import { useCourseData } from "../hooks/useCourseData";
 import { useCourseReviews } from "../hooks/useCourseReviews";
 
 import { formatDistanceToNow } from "date-fns";
+import LoadingSpinner from "../components/LoadingSpinner";
 
 export default function CourseDetail() {
     const { stateId, courseId } = useParams();
@@ -43,7 +44,7 @@ export default function CourseDetail() {
             ).toFixed(1)
             : null;
 
-    if (loading) return <p className="text-center mt-10">Loading course...</p>;
+    if (loading || loadingReviews) return <LoadingSpinner message="Loading Course..."/>;
     if (!course) return <p className="text-center mt-10">Course not found</p>;
 
     return (
