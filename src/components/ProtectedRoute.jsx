@@ -4,9 +4,17 @@ import { Navigate } from "react-router-dom";
 
 export default function ProtectedRoute ({ children }) {
 
-    const { currentUser, isAdmin } = useContext(AuthContext);
+    const { currentUser, isAdmin, authLoading } = useContext(AuthContext);
 
-    if (!currentUser || !isAdmin) {
+    if (authLoading) {
+        return (
+            <div className="text-center text-gray-600 text-sm">
+                Checking Permissions
+            </div>
+        );
+    }
+
+    if (!isAdmin) {
         return <Navigate to="/" replace />;
     }
 

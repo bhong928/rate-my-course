@@ -35,12 +35,14 @@ function App() {
   const [currentUser, setCurrentUser] = useState(null);
   const [isAdmin, setIsAdmin] = useState(false);
   const [email, setEmail] = useState("");
+  const [authLoading, setAuthLoading] = useState(true);
 
   // Firebase auth listener
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       setCurrentUser(user);
       setIsAdmin(user ? ADMIN_EMAILS.includes(user.email) : false);
+      setAuthLoading(false);
     });
 
     return () => unsubscribe();
@@ -97,7 +99,7 @@ function App() {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ showAuth, setShowAuth }}>
+    <AuthContext.Provider value={{ showAuth, setShowAuth, currentUser, isAdmin, authLoading }}>
       <AuthModal
         isOpen={showAuth}
         onClose={() => setShowAuth(false)}
