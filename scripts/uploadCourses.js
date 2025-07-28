@@ -3,13 +3,12 @@ import { initializeApp } from "firebase/app";
 import { getFirestore, setDoc, doc, serverTimestamp } from "firebase/firestore";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyAJhex1vfEZ0G7Kj3r3hitbml7BxrWudws",
-  authDomain: "ratemycourse-b21f2.firebaseapp.com",
-  projectId: "ratemycourse-b21f2",
-  storageBucket: "ratemycourse-b21f2.firebasestorage.app",
-  messagingSenderId: "782164801746",
-  appId: "1:782164801746:web:4742b0e116b09e45dcd50b",
-  measurementId: "G-TG73KWVJVW"
+  apiKey: process.env.VITE_FIREBASE_API_KEY,
+  authDomain: process.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.VITE_FIREBASE_APP_ID,
 };
 
 // Initialize Firebase
@@ -21,7 +20,7 @@ function slugify(str) {
   return str.toLowerCase().replace(/\s+/g, "_").replace(/[^\w\-]+/g, "");
 }
 
-// gold courses by state data set
+// golf courses by state data set
 const IMAGE_URL = "https://images.unsplash.com/photo-1587174486073-ae5e5cff23aa?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
 
 const golfCoursesByState = {
