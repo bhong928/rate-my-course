@@ -26,6 +26,7 @@ import { auth } from "./lib/firebase";
 import { ADMIN_EMAILS } from './lib/admin';
 import { useState, useEffect } from 'react';
 import { createContext } from "react";
+import ProtectedRoute from './components/ProtectedRoute';
 
 export const AuthContext = createContext();
 
@@ -117,7 +118,12 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/account" element={<Account />} />
         <Route path="/courses" element={<AllCourses />} />
-        <Route path="/admin" element={<AdminDashboard />} />
+        <Route path="/admin" element={
+            <ProtectedRoute>
+              <AdminDashboard />
+            </ProtectedRoute>
+          } 
+        />
         <Route path="/add-course" element={<AddCoursePage currentUser={currentUser} />} />
         <Route path="/states/:stateId" element={<StateDetail />} />
         <Route path="/states/:stateId/courses/:courseId" element={<CourseDetail />} />
