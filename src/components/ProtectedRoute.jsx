@@ -10,5 +10,8 @@ export default function ProtectedRoute ({ children }) {
         return <Navigate to="/" replace />;
     }
 
+    console.log("currentUser", currentUser?.email);
+    console.log("isAdmin", isAdmin);
+
     return children;
 }
